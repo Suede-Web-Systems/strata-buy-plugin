@@ -1,7 +1,7 @@
 {
   "name": "strata-buy",
   "description": "Build, validate, and preflight broadcast TV buy sheets (AAAA SpotTVCableProposal XML) for import into Strata VIEW. Parse station avails, optimize a spot buy against buyer-controlled rules, and verify the file will survive Strata's import before it is ever sent.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": {
     "name": "Suede Web Systems",
     "email": "harry@suedewebsystems.ai"

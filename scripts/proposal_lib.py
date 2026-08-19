@@ -15,11 +15,36 @@ NS = {'p': P, 'tvb': TVB, 'tp': TP}
 WEEKDAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
 
+class FormatError(ValueError):
+    """The file uses a Proposal XML structure this library does not handle.
+    We raise rather than guess: a loud failure beats a plausible-but-wrong
+    summary, because downstream numbers (phantom %, buyable $) drive real
+    buys. See reference/FORMAT.md before adding support for a new shape."""
+
+
 def parse(path):
     """Parse a Proposal XML file into a plain-dict inventory."""
     root = etree.parse(str(path)).getroot()
     pr = root.find('p:Proposal', NS)
-    al = pr.find('p:AvailList', NS)
+    avail_lists = pr.findall('p:AvailList', NS)
+    if len(avail_lists) != 1:
+        raise FormatError(
+            '%d AvailList elements found; only single-AvailList files are '
+            'supported so far' % len(avail_lists))
+    al = avail_lists[0]
+    non_tv = [etree.QName(o).localname
+              for o in pr.find('p:Outlets', NS)
+              if etree.QName(o).localname != 'TelevisionStation']
+    if non_tv:
+        raise FormatError(
+            'Outlets contains non-TelevisionStation entries (%s); cable '
+            'outlets are not supported so far' % ', '.join(sorted(set(non_tv))))
+    weekly = al.findall('p:AvailLineWithPeriods', NS)
+    if weekly:
+        raise FormatError(
+            'file carries %d weekly-grain AvailLineWithPeriods lines; only '
+            'day-detailed lines (AvailLineWithDetailedPeriods) are supported '
+            'so far' % len(weekly))
     outlets = {o.get('outletId'): o.get('callLetters')
                for o in pr.findall('p:Outlets/p:TelevisionStation', NS)}
     listref = {o.get('outletForListId'): outlets[o.get('outletFromProposalRef')]
@@ -29,12 +54,27 @@ def parse(path):
         demos[d.get('DemoId')] = '%s %s-%s (%s)' % (
             d.findtext('tvb:Group', '', NS), d.findtext('tvb:AgeFrom', '', NS),
             d.findtext('tvb:AgeTo', '', NS), d.findtext('tvb:DemoType', '', NS))
-    target_demo = al.find('p:TargetDemo', NS).get('demoRef')
+    warnings = []
+    td = al.find('p:TargetDemo', NS)
+    if td is not None:
+        target_demo = td.get('demoRef')
+    else:
+        target_demo = next(iter(demos), None)
+        warnings.append(
+            'file has no TargetDemo; falling back to first demo %s (%s) -- '
+            'confirm with the buyer' % (target_demo, demos.get(target_demo)))
 
     lines = []
     for li, L in enumerate(al.findall('p:AvailLineWithDetailedPeriods', NS)):
-        dt = L.find('p:DayTimes/p:DayTime', NS)
-        flags = [c.text == 'Y' for c in L.find('p:DayTimes/p:DayTime/p:Days', NS)]
+        daytimes = L.findall('p:DayTimes/p:DayTime', NS)
+        if len(daytimes) != 1:
+            raise FormatError(
+                'avail line %d (%s) has %d DayTime blocks; multi-DayTime '
+                'lines are not supported so far -- the Days flags would be '
+                'ambiguous and the air-day mask wrong' % (
+                    li, L.findtext('p:AvailName', '?', NS), len(daytimes)))
+        dt = daytimes[0]
+        flags = [c.text == 'Y' for c in dt.find('p:Days', NS)]
         start = dt.findtext('p:StartTime', '', NS)
         periods = []
         for pd in L.findall('p:Periods/p:DayDetailedPeriod', NS):
@@ -69,12 +109,14 @@ def parse(path):
             'id': pr.get('uniqueIdentifier'), 'name': pr.findtext('p:Name', '', NS),
             'start': pr.get('startDate'), 'end': pr.get('endDate'),
             'week_start_day': pr.get('weekStartDay'),
-            'advertiser': pr.find('p:Advertiser', NS).get('name'),
+            'advertiser': (pr.find('p:Advertiser', NS).get('name')
+                           if pr.find('p:Advertiser', NS) is not None else None),
             'survey': al.findtext('p:Name', '', NS),
         },
         'stations': sorted(set(outlets.values())),
         'demos': demos,
         'target_demo': target_demo,
+        'warnings': warnings,
         'lines': lines,
     }
 
