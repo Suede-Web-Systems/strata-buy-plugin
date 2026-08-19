@@ -8,7 +8,15 @@ via VIEW's `File | Import | Proposal XML` — with a preflight that predicts
 exactly what Strata will keep, before anything is sent.
 
 Built and maintained by [Suede Web Systems](mailto:harry@suedewebsystems.ai).
-Use is limited to authorized clients — see LICENSE.
+Open source under the MIT license — use it, fork it, tell us what breaks.
+
+> **Disclaimer:** This project is not affiliated with, endorsed by, or
+> supported by FreeWheel, Comcast, Strata, or the AAAA. "Strata" and
+> related marks belong to their owners; they are used here only to describe
+> what this toolkit interoperates with. The schemas in `schema/` are
+> reverse-engineered from real files and are descriptive, not official.
+> **Always verify imported buys against your own system of record** — a
+> media buy is your responsibility, not this software's.
 
 ## What it does
 
