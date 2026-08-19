@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ============================================================================
+     INFERRED SCHEMA for AAAA-Message / SpotTVCableProposal v0.3.0.5A
+     Reverse-engineered by Suede (2026-08-18) from five specimens:
+       - Strata VIEW exports, with & without spots  [authoritative]
+       - a seller-generated station schedule
+       - a third-party audience-data provider export
+     The canonical XSD is NOT publicly published (proposalxml.com hosts no
+     downloads; AAAA namespace URIs serve nothing). This file encodes only what
+     Strata VIEW demonstrably emits and re-imports. Passing validation here is
+     NECESSARY but not proven SUFFICIENT for a clean VIEW import - confirm with
+     a live import test.
+     Conventions worth honoring even though XML doesn't require them:
+       * Strata emits CRLF line endings, tab indentation, double-quoted
+         XML declaration, and non-alphabetized attribute order.
+       * <SpotsByDay> appears BEFORE <DemoValues> inside <DayDetailedPeriod>
+         and is OMITTED (not zero-filled) when a period has no spots.
+       * Times use the broadcast-day clock: 05:00-29:59 (29:00 = 5:00 AM next day).
+     ============================================================================ -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.AAAA.org/schemas/spotTVCableProposal"
+           xmlns:p="http://www.AAAA.org/schemas/spotTVCableProposal"
+           xmlns:tvb="http://www.AAAA.org/schemas/spotTV"
+           xmlns:tp="http://www.AAAA.org/schemas/TVBGeneralTypes"
+           elementFormDefault="qualified">
+
+  <xs:import namespace="http://www.AAAA.org/schemas/spotTV" schemaLocation="spotTV.xsd"/>
+  <xs:import namespace="http://www.AAAA.org/schemas/TVBGeneralTypes" schemaLocation="TVBGeneralTypes.xsd"/>
+
+  <!-- ============ simple types ============ -->
+  <xs:simpleType name="YN">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Y"/><xs:enumeration value="N"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="WeekStartDay">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Mo"/><xs:enumeration value="Tu"/><xs:enumeration value="We"/>
+      <xs:enumeration value="Th"/><xs:enumeration value="Fr"/><xs:enumeration value="Sa"/>
+      <xs:enumeration value="Su"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Broadcast-day clock: hours 00-29 observed (05:00 through 29:00) -->
+  <xs:simpleType name="BroadcastTime">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[0-2][0-9]:[0-5][0-9]"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- hh:mm:ss, e.g. 00:00:30 -->
+  <xs:simpleType name="SpotLengthType">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[0-9]{2}:[0-9]{2}:[0-9]{2}"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="MessageId">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="ID[A-Z0-9]+"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- ============ shared complex types ============ -->
+  <xs:complexType name="CommentType">
+    <xs:sequence>
+      <xs:element ref="tp:CommentLine" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- ============ root ============ -->
+  <xs:element name="AAAA-Message">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="AAAA-Values">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SchemaName"      type="xs:string"/> <!-- "SpotTVCableProposal" -->
+              <xs:element name="SchemaVersion"   type="xs:string"/> <!-- "0.3.0.5A" -->
+              <xs:element name="Media"           type="xs:string"/> <!-- "SpotTV" -->
+              <xs:element name="BusinessObject"  type="xs:string"/> <!-- "Proposal" -->
+              <xs:element name="Action"          type="xs:string"/> <!-- "New" -->
+              <xs:element name="UniqueMessageID" type="p:MessageId"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Proposal">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Seller">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Salesperson">
+                      <xs:complexType><xs:attribute name="name" type="xs:string" use="required"/></xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="companyName" type="xs:string" use="required"/>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Buyer">
+                <xs:complexType><xs:attribute name="buyingCompanyName" type="xs:string" use="required"/></xs:complexType>
+              </xs:element>
+              <xs:element name="Advertiser">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Product">
+                      <xs:complexType><xs:attribute name="name" type="xs:string" use="required"/></xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="name" type="xs:string" use="required"/>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Name" type="xs:string"/>
+              <!-- Strata writes the SBMS estimate number here; seller and third-party exports omit it -->
+              <xs:element name="SellerReference" type="xs:string" minOccurs="0"/>
+              <xs:element name="Outlets">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="TelevisionStation" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:attribute name="callLetters" type="xs:string" use="required"/>
+                        <xs:attribute name="parentPlus"  type="p:YN"      use="required"/>
+                        <xs:attribute name="outletId"    type="xs:string" use="required"/>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="AvailList" type="p:AvailListType"/>
+            </xs:sequence>
+            <xs:attribute name="uniqueIdentifier" type="xs:string"   use="required"/>
+            <xs:attribute name="version"          type="xs:string"   use="required"/>
+            <xs:attribute name="sendDateTime"     type="xs:dateTime" use="required"/>
+            <xs:attribute name="weekStartDay"     type="p:WeekStartDay" use="required"/>
+            <xs:attribute name="startDate"        type="xs:date"     use="required"/>
+            <xs:attribute name="endDate"          type="xs:date"     use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="AvailListType">
+    <xs:sequence>
+      <xs:element name="Name" type="xs:string"/> <!-- carries the survey name, e.g. "Television Schedule - Sample DMA Nov25 Live+SD" -->
+      <xs:element name="OutletReferences">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="OutletReference" maxOccurs="unbounded">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="Comment" type="p:CommentType" minOccurs="0"/>
+                </xs:sequence>
+                <xs:attribute name="outletFromProposalRef" type="xs:string" use="required"/>
+                <xs:attribute name="outletForListId"       type="xs:string" use="required"/>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DemoCategories">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="DemoCategory" maxOccurs="unbounded">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element ref="tvb:DemoType"/>
+                  <xs:element ref="tvb:Group"/>
+                  <xs:element ref="tvb:AgeFrom"/>
+                  <xs:element ref="tvb:AgeTo"/>
+                </xs:sequence>
+                <xs:attribute name="DemoId" type="xs:string" use="required"/>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="TargetDemo">
+        <xs:complexType><xs:attribute name="demoRef" type="xs:string" use="required"/></xs:complexType>
+      </xs:element>
+      <xs:element name="AvailLineWithDetailedPeriods" type="p:AvailLineType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="startDate"  type="xs:date"   use="required"/>
+    <xs:attribute name="endDate"    type="xs:date"   use="required"/>
+    <xs:attribute name="identifier" type="xs:string" use="required"/>
+    <xs:attribute name="isPackage"  type="p:YN"      use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="AvailLineType">
+    <xs:sequence>
+      <xs:element name="OutletReference">
+        <xs:complexType><xs:attribute name="outletFromListRef" type="xs:string" use="required"/></xs:complexType>
+      </xs:element>
+      <xs:element name="DayTimes">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="DayTime" maxOccurs="unbounded">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="StartTime" type="p:BroadcastTime"/>
+                  <xs:element name="EndTime"   type="p:BroadcastTime"/>
+                  <xs:element name="Days">
+                    <xs:complexType>
+                      <xs:sequence>
+                        <xs:element ref="tp:Monday"/><xs:element ref="tp:Tuesday"/>
+                        <xs:element ref="tp:Wednesday"/><xs:element ref="tp:Thursday"/>
+                        <xs:element ref="tp:Friday"/><xs:element ref="tp:Saturday"/>
+                        <xs:element ref="tp:Sunday"/>
+                      </xs:sequence>
+                    </xs:complexType>
+                  </xs:element>
+                  <xs:element name="ProgramName" type="xs:string"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DaypartName" type="xs:string"/> <!-- NOT restricted to Strata's 10 codes; VIEW retains seller strings on import -->
+      <xs:element name="AvailName"   type="xs:string"/>
+      <xs:element name="SpotLength"  type="p:SpotLengthType"/>
+      <!-- Strata & sellers place Comment here (before Periods)... -->
+      <xs:element name="Comment" type="p:CommentType" minOccurs="0"/>
+      <xs:element name="Periods">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="DayDetailedPeriod" maxOccurs="unbounded">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="Rate" type="xs:decimal"/>
+                  <!-- THE BUY SIGNAL. Position matters: BEFORE DemoValues, per Strata's
+                       own export. Omit entirely for unbought periods. -->
+                  <xs:element name="SpotsByDay" minOccurs="0">
+                    <xs:complexType>
+                      <xs:sequence>
+                        <xs:element name="Monday"    type="xs:nonNegativeInteger"/>
+                        <xs:element name="Tuesday"   type="xs:nonNegativeInteger"/>
+                        <xs:element name="Wednesday" type="xs:nonNegativeInteger"/>
+                        <xs:element name="Thursday"  type="xs:nonNegativeInteger"/>
+                        <xs:element name="Friday"    type="xs:nonNegativeInteger"/>
+                        <xs:element name="Saturday"  type="xs:nonNegativeInteger"/>
+                        <xs:element name="Sunday"    type="xs:nonNegativeInteger"/>
+                      </xs:sequence>
+                    </xs:complexType>
+                  </xs:element>
+                  <xs:element name="DemoValues">
+                    <xs:complexType>
+                      <xs:sequence>
+                        <xs:element name="DemoValue" maxOccurs="unbounded">
+                          <xs:complexType>
+                            <xs:simpleContent>
+                              <xs:extension base="xs:decimal">
+                                <xs:attribute name="demoRef" type="xs:string" use="required"/>
+                              </xs:extension>
+                            </xs:simpleContent>
+                          </xs:complexType>
+                        </xs:element>
+                      </xs:sequence>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+                <xs:attribute name="startDate" type="xs:date" use="required"/>
+                <xs:attribute name="endDate"   type="xs:date" use="required"/>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <!-- ...but some third-party exports place Comment AFTER Periods, so both positions are allowed here. -->
+      <xs:element name="Comment" type="p:CommentType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

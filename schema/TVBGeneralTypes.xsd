@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- INFERRED SCHEMA - reverse-engineered from Strata VIEW exports by Suede, 2026-08-18.
+     The canonical XSD is not publicly published (see proposalxml.com). Treat this as a
+     working validation gate, not the vendor spec. -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.AAAA.org/schemas/TVBGeneralTypes"
+           xmlns:tp="http://www.AAAA.org/schemas/TVBGeneralTypes"
+           elementFormDefault="qualified">
+
+  <xs:simpleType name="YN">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Y"/>
+      <xs:enumeration value="N"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:element name="CommentLine" type="xs:string"/>
+
+  <!-- Day-of-week Y/N flags used inside <Days> (note: SpotsByDay weekday elements
+       are in the *proposal* namespace, not this one) -->
+  <xs:element name="Monday"    type="tp:YN"/>
+  <xs:element name="Tuesday"   type="tp:YN"/>
+  <xs:element name="Wednesday" type="tp:YN"/>
+  <xs:element name="Thursday"  type="tp:YN"/>
+  <xs:element name="Friday"    type="tp:YN"/>
+  <xs:element name="Saturday"  type="tp:YN"/>
+  <xs:element name="Sunday"    type="tp:YN"/>
+</xs:schema>

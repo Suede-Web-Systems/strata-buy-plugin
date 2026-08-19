@@ -1,0 +1,28 @@
+# ============================================================
+# Buy parameters — copy this file, rename it (e.g. buy-springfield.toml),
+# and edit the values. Lines starting with # are comments.
+# ============================================================
+
+[buy]
+# Total budget in dollars.
+budget = 150000
+# Maximum spots per program per day (unit availability is rarely stated
+# in avails; 2 is a conservative default).
+max_spots_per_cell = 2
+# Require at least one spot on every day of the flight? (true/false)
+cover_every_day = true
+
+[demo]
+# Which demo to optimize. "target" uses the file's own TargetDemo.
+# Or give an explicit demo like "Adults 35-99".
+optimize_demo = "target"
+
+[shape]
+# No station may take more than this share of the BUDGET (0.40 = 40%).
+station_spend_cap = 0.40
+# Minimum share of rating points that must come from news programming.
+news_points_floor = 0.25
+# Dayparts counted as news. Two-letter codes and long-form names both work.
+news_dayparts = ["EN", "LN", "Early News", "Late News", "News"]
+# Maximum share of spend on overnight inventory (air time 24:00-29:59).
+overnight_spend_cap = 0.10

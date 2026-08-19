@@ -1,0 +1,11 @@
+{
+  "name": "strata-buy-toolkit",
+  "owner": { "name": "Suede Web Systems" },
+  "plugins": [
+    {
+      "name": "strata-buy",
+      "source": "./",
+      "description": "Build, validate, and preflight Strata VIEW buy sheets (Proposal XML)."
+    }
+  ]
+}

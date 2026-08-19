@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AAAA-Message xmlns:tvb="http://www.AAAA.org/schemas/spotTV" xmlns:tvb-tp="http://www.AAAA.org/schemas/TVBGeneralTypes" xmlns="http://www.AAAA.org/schemas/spotTVCableProposal">
+	<AAAA-Values>
+		<SchemaName>SpotTVCableProposal</SchemaName>
+		<SchemaVersion>0.3.0.5A</SchemaVersion>
+		<Media>SpotTV</Media>
+		<BusinessObject>Proposal</BusinessObject>
+		<Action>New</Action>
+		<UniqueMessageID>IDSAMPLE0000000000000000000000000000000000000000000000</UniqueMessageID>
+	</AAAA-Values>
+	<Proposal uniqueIdentifier="Sample Market Demo" version="1" sendDateTime="2026-01-05T09:00:00" weekStartDay="Mo" startDate="2026-01-05" endDate="2026-01-11">
+		<Seller companyName="N/A">
+			<Salesperson name="N/A"/>
+		</Seller>
+		<Buyer buyingCompanyName="N/A"/>
+		<Advertiser name="Sample Advertiser">
+			<Product name="Sample Product"/>
+		</Advertiser>
+		<Name>Sample Market Demo</Name>
+		<Outlets>
+			<TelevisionStation callLetters="WAAA" parentPlus="N" outletId="OUT0"/>
+			<TelevisionStation callLetters="KBBB" parentPlus="N" outletId="OUT1"/>
+		</Outlets>
+		<AvailList startDate="2026-01-05" endDate="2026-01-11" identifier="AL001" isPackage="N">
+			<Name>Television Schedule - Sample DMA Custom</Name>
+			<OutletReferences>
+				<OutletReference outletFromProposalRef="OUT0" outletForListId="OUL0"/>
+				<OutletReference outletFromProposalRef="OUT1" outletForListId="OUL1"/>
+			</OutletReferences>
+			<DemoCategories>
+				<DemoCategory DemoId="DM0">
+					<tvb:DemoType>Rating</tvb:DemoType>
+					<tvb:Group>Adults</tvb:Group>
+					<tvb:AgeFrom>35</tvb:AgeFrom>
+					<tvb:AgeTo>99</tvb:AgeTo>
+				</DemoCategory>
+			</DemoCategories>
+			<TargetDemo demoRef="DM0"/>
+			<AvailLineWithDetailedPeriods>
+				<OutletReference outletFromListRef="OUL0"/>
+				<DayTimes>
+					<DayTime>
+						<StartTime>06:00</StartTime>
+						<EndTime>07:00</EndTime>
+						<Days>
+							<tvb-tp:Monday>Y</tvb-tp:Monday>
+							<tvb-tp:Tuesday>Y</tvb-tp:Tuesday>
+							<tvb-tp:Wednesday>Y</tvb-tp:Wednesday>
+							<tvb-tp:Thursday>Y</tvb-tp:Thursday>
+							<tvb-tp:Friday>Y</tvb-tp:Friday>
+							<tvb-tp:Saturday>N</tvb-tp:Saturday>
+							<tvb-tp:Sunday>N</tvb-tp:Sunday>
+						</Days>
+						<ProgramName>SAMPLE MORNING NEWS</ProgramName>
+					</DayTime>
+				</DayTimes>
+				<DaypartName>EN</DaypartName>
+				<AvailName>SAMPLE MORNING NEWS</AvailName>
+				<SpotLength>00:00:30</SpotLength>
+				<Periods>
+					<DayDetailedPeriod startDate="2026-01-05" endDate="2026-01-05">
+						<Rate>100.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">1.2</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+					<DayDetailedPeriod startDate="2026-01-06" endDate="2026-01-06">
+						<Rate>100.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">1.2</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+					<DayDetailedPeriod startDate="2026-01-07" endDate="2026-01-07">
+						<Rate>100.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">1.2</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+					<DayDetailedPeriod startDate="2026-01-08" endDate="2026-01-08">
+						<Rate>100.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">1.2</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+					<DayDetailedPeriod startDate="2026-01-09" endDate="2026-01-09">
+						<Rate>100.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">1.2</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+					<DayDetailedPeriod startDate="2026-01-10" endDate="2026-01-10">
+						<Rate>100.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">1.2</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+					<DayDetailedPeriod startDate="2026-01-11" endDate="2026-01-11">
+						<Rate>100.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">1.2</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+				</Periods>
+			</AvailLineWithDetailedPeriods>
+			<AvailLineWithDetailedPeriods>
+				<OutletReference outletFromListRef="OUL0"/>
+				<DayTimes>
+					<DayTime>
+						<StartTime>20:00</StartTime>
+						<EndTime>21:00</EndTime>
+						<Days>
+							<tvb-tp:Monday>Y</tvb-tp:Monday>
+							<tvb-tp:Tuesday>Y</tvb-tp:Tuesday>
+							<tvb-tp:Wednesday>Y</tvb-tp:Wednesday>
+							<tvb-tp:Thursday>Y</tvb-tp:Thursday>
+							<tvb-tp:Friday>Y</tvb-tp:Friday>
+							<tvb-tp:Saturday>Y</tvb-tp:Saturday>
+							<tvb-tp:Sunday>Y</tvb-tp:Sunday>
+						</Days>
+						<ProgramName>SAMPLE PRIME DRAMA</ProgramName>
+					</DayTime>
+				</DayTimes>
+				<DaypartName>PT</DaypartName>
+				<AvailName>SAMPLE PRIME DRAMA</AvailName>
+				<SpotLength>00:00:30</SpotLength>
+				<Periods>
+					<DayDetailedPeriod startDate="2026-01-05" endDate="2026-01-05">
+						<Rate>400.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">2.5</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+					<DayDetailedPeriod startDate="2026-01-06" endDate="2026-01-06">
+						<Rate>400.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">2.5</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+					<DayDetailedPeriod startDate="2026-01-07" endDate="2026-01-07">
+						<Rate>400.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">2.5</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+					<DayDetailedPeriod startDate="2026-01-08" endDate="2026-01-08">
+						<Rate>400.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">2.5</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+					<DayDetailedPeriod startDate="2026-01-09" endDate="2026-01-09">
+						<Rate>400.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">2.5</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+					<DayDetailedPeriod startDate="2026-01-10" endDate="2026-01-10">
+						<Rate>400.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">2.5</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+					<DayDetailedPeriod startDate="2026-01-11" endDate="2026-01-11">
+						<Rate>400.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">2.5</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+				</Periods>
+			</AvailLineWithDetailedPeriods>
+			<AvailLineWithDetailedPeriods>
+				<OutletReference outletFromListRef="OUL0"/>
+				<DayTimes>
+					<DayTime>
+						<StartTime>26:00</StartTime>
+						<EndTime>27:30</EndTime>
+						<Days>
+							<tvb-tp:Monday>Y</tvb-tp:Monday>
+							<tvb-tp:Tuesday>Y</tvb-tp:Tuesday>
+							<tvb-tp:Wednesday>Y</tvb-tp:Wednesday>
+							<tvb-tp:Thursday>Y</tvb-tp:Thursday>
+							<tvb-tp:Friday>Y</tvb-tp:Friday>
+							<tvb-tp:Saturday>N</tvb-tp:Saturday>
+							<tvb-tp:Sunday>N</tvb-tp:Sunday>
+						</Days>
+						<ProgramName>SAMPLE LATE MOVIE</ProgramName>
+					</DayTime>
+				</DayTimes>
+				<DaypartName>LF</DaypartName>
+				<AvailName>SAMPLE LATE MOVIE</AvailName>
+				<SpotLength>00:00:30</SpotLength>
+				<Periods>
+					<DayDetailedPeriod startDate="2026-01-05" endDate="2026-01-05">
+						<Rate>50.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">0.4</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+					<DayDetailedPeriod startDate="2026-01-06" endDate="2026-01-06">
+						<Rate>50.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">0.4</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+					<DayDetailedPeriod startDate="2026-01-07" endDate="2026-01-07">
+						<Rate>50.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">0.4</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+					<DayDetailedPeriod startDate="2026-01-08" endDate="2026-01-08">
+						<Rate>50.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">0.4</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+					<DayDetailedPeriod startDate="2026-01-09" endDate="2026-01-09">
+						<Rate>50.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">0.4</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+					<DayDetailedPeriod startDate="2026-01-10" endDate="2026-01-10">
+						<Rate>50.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">0.4</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+					<DayDetailedPeriod startDate="2026-01-11" endDate="2026-01-11">
+						<Rate>50.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">0.4</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+				</Periods>
+			</AvailLineWithDetailedPeriods>
+			<AvailLineWithDetailedPeriods>
+				<OutletReference outletFromListRef="OUL1"/>
+				<DayTimes>
+					<DayTime>
+						<StartTime>12:00</StartTime>
+						<EndTime>12:30</EndTime>
+						<Days>
+							<tvb-tp:Monday>Y</tvb-tp:Monday>
+							<tvb-tp:Tuesday>Y</tvb-tp:Tuesday>
+							<tvb-tp:Wednesday>Y</tvb-tp:Wednesday>
+							<tvb-tp:Thursday>Y</tvb-tp:Thursday>
+							<tvb-tp:Friday>Y</tvb-tp:Friday>
+							<tvb-tp:Saturday>N</tvb-tp:Saturday>
+							<tvb-tp:Sunday>N</tvb-tp:Sunday>
+						</Days>
+						<ProgramName>SAMPLE NOON NEWS</ProgramName>
+					</DayTime>
+				</DayTimes>
+				<DaypartName>EN</DaypartName>
+				<AvailName>SAMPLE NOON NEWS</AvailName>
+				<SpotLength>00:00:30</SpotLength>
+				<Periods>
+					<DayDetailedPeriod startDate="2026-01-05" endDate="2026-01-05">
+						<Rate>80.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">0.9</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+					<DayDetailedPeriod startDate="2026-01-06" endDate="2026-01-06">
+						<Rate>80.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">0.9</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+					<DayDetailedPeriod startDate="2026-01-07" endDate="2026-01-07">
+						<Rate>80.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">0.9</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+					<DayDetailedPeriod startDate="2026-01-08" endDate="2026-01-08">
+						<Rate>80.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">0.9</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+					<DayDetailedPeriod startDate="2026-01-09" endDate="2026-01-09">
+						<Rate>80.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">0.9</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+				</Periods>
+			</AvailLineWithDetailedPeriods>
+			<AvailLineWithDetailedPeriods>
+				<OutletReference outletFromListRef="OUL1"/>
+				<DayTimes>
+					<DayTime>
+						<StartTime>15:00</StartTime>
+						<EndTime>16:00</EndTime>
+						<Days>
+							<tvb-tp:Monday>Y</tvb-tp:Monday>
+							<tvb-tp:Tuesday>Y</tvb-tp:Tuesday>
+							<tvb-tp:Wednesday>Y</tvb-tp:Wednesday>
+							<tvb-tp:Thursday>Y</tvb-tp:Thursday>
+							<tvb-tp:Friday>Y</tvb-tp:Friday>
+							<tvb-tp:Saturday>N</tvb-tp:Saturday>
+							<tvb-tp:Sunday>N</tvb-tp:Sunday>
+						</Days>
+						<ProgramName>SAMPLE GAME SHOW</ProgramName>
+					</DayTime>
+				</DayTimes>
+				<DaypartName>DT</DaypartName>
+				<AvailName>SAMPLE GAME SHOW</AvailName>
+				<SpotLength>00:00:30</SpotLength>
+				<Periods>
+					<DayDetailedPeriod startDate="2026-01-05" endDate="2026-01-05">
+						<Rate>60.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">0.7</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+					<DayDetailedPeriod startDate="2026-01-06" endDate="2026-01-06">
+						<Rate>60.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">0.7</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+					<DayDetailedPeriod startDate="2026-01-07" endDate="2026-01-07">
+						<Rate>60.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">0.7</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+					<DayDetailedPeriod startDate="2026-01-08" endDate="2026-01-08">
+						<Rate>60.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">0.7</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+					<DayDetailedPeriod startDate="2026-01-09" endDate="2026-01-09">
+						<Rate>60.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">0.7</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+					<DayDetailedPeriod startDate="2026-01-10" endDate="2026-01-10">
+						<Rate>60.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">0.7</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+					<DayDetailedPeriod startDate="2026-01-11" endDate="2026-01-11">
+						<Rate>60.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">0.7</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+				</Periods>
+			</AvailLineWithDetailedPeriods>
+			<AvailLineWithDetailedPeriods>
+				<OutletReference outletFromListRef="OUL1"/>
+				<DayTimes>
+					<DayTime>
+						<StartTime>09:00</StartTime>
+						<EndTime>10:00</EndTime>
+						<Days>
+							<tvb-tp:Monday>N</tvb-tp:Monday>
+							<tvb-tp:Tuesday>N</tvb-tp:Tuesday>
+							<tvb-tp:Wednesday>N</tvb-tp:Wednesday>
+							<tvb-tp:Thursday>N</tvb-tp:Thursday>
+							<tvb-tp:Friday>N</tvb-tp:Friday>
+							<tvb-tp:Saturday>N</tvb-tp:Saturday>
+							<tvb-tp:Sunday>Y</tvb-tp:Sunday>
+						</Days>
+						<ProgramName>SAMPLE SUNDAY SHOW</ProgramName>
+					</DayTime>
+				</DayTimes>
+				<DaypartName>WK</DaypartName>
+				<AvailName>SAMPLE SUNDAY SHOW</AvailName>
+				<SpotLength>00:00:30</SpotLength>
+				<Periods>
+					<DayDetailedPeriod startDate="2026-01-10" endDate="2026-01-10">
+						<Rate>150.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">1.1</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+					<DayDetailedPeriod startDate="2026-01-11" endDate="2026-01-11">
+						<Rate>150.00</Rate>
+						<DemoValues>
+							<DemoValue demoRef="DM0">1.1</DemoValue>
+						</DemoValues>
+					</DayDetailedPeriod>
+				</Periods>
+			</AvailLineWithDetailedPeriods>
+		</AvailList>
+	</Proposal>
+</AAAA-Message>
