@@ -1,5 +1,5 @@
 {
-  "name": "strata-buy-toolkit",
+  "name": "strata-buy-plugin",
   "owner": { "name": "Suede Web Systems" },
   "plugins": [
     {

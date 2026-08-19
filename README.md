@@ -1,4 +1,4 @@
-# Strata Buy Toolkit
+# Strata Buy Plugin
 
 A Claude plugin for broadcast TV media buyers who work in **Strata VIEW**
 (FreeWheel / Comcast Advertising). It reads station avails files (AAAA
@@ -34,12 +34,12 @@ totals**. Each skill tells you the next step.
 In Claude Code:
 
 ```
-/plugin marketplace add Suede-Web-Systems/strata-buy-toolkit
-/plugin install strata-buy@strata-buy-toolkit
+/plugin marketplace add Suede-Web-Systems/strata-buy-plugin
+/plugin install strata-buy@strata-buy-plugin
 ```
 
 In Cowork (Claude desktop): open the plugin manager and add the marketplace
-`Suede-Web-Systems/strata-buy-toolkit`, then install **strata-buy**.
+`Suede-Web-Systems/strata-buy-plugin`, then install **strata-buy**.
 
 Requirements: Python 3 with `lxml` (parsing) and `pulp` (optimizer). The
 skills install these automatically on first use; if `pulp` can't install,
@@ -85,4 +85,4 @@ Releasing a change:
    client updates.
 4. `claude plugin validate .` then push to `main`.
 
-Test locally without installing: `claude --plugin-dir ./strata-buy-toolkit`.
+Test locally without installing: `claude --plugin-dir ./strata-buy-plugin`.
