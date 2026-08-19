@@ -47,8 +47,8 @@ optimize_demo = "target"
 #     (shares are of total budget / total delivered points)
 #
 #   Idioms:
-#     must-buy:   programs = ["*STATE GAME*"], metric = "spots", min = 1
-#     exclusion:  stations = ["WBBB"], metric = "spots", max = 0
+#     must-buy:   programs = ["*CHAMPIONSHIP*"], metric = "spots", min = 1
+#     exclusion:  stations = ["WYYY"], metric = "spots", max = 0
 # ============================================================
 
 [[constraint]]

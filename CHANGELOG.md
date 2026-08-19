@@ -57,10 +57,10 @@ Optimizer speed and multi-campaign config, from the second test-drive pass:
 
 - **~60x faster solves.** CBC was spending its entire hardcoded 180s time
   limit proving optimality it had already found (measured: identical
-  655.8-point solution at 15s and 180s on a real 930-cell file). New
+  solution at 15s and at 180s on a real ~1,000-cell file). New
   `[solver]` config: `gap` (default 0.001) and `time_limit_s` (default 60).
-  Measured results: 930 cells 180s -> 2.9s at -0.05% points; 6,655-cell
-  larger file solves in 0.4s.
+  Measured results: a ~1,000-cell real file 180s -> 2.9s at -0.05%
+  points; a real file seven times larger solves in 0.4s.
 - **Honest solver labels.** PuLP/CBC reports "Optimal" even when stopped
   by the time limit with an unproven incumbent. Output now says
   "within X% of optimal (Ns)" or, when time-capped, that optimality is
@@ -78,8 +78,8 @@ Optimizer speed and multi-campaign config, from the second test-drive pass:
 
 ## 0.1.1 — 2026-08-19
 
-Hardening pass from the first live test drive (two real avails files:
-different markets and campaign types):
+Hardening pass from the first live test drive (two real seller avails
+files from different markets, vintages, and daypart vocabularies):
 
 - **Fail loudly on unsupported structure** instead of silently ignoring it:
   multiple `AvailList`s, weekly-grain `AvailLineWithPeriods`, non-station

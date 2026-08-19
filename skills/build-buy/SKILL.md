@@ -37,9 +37,9 @@ The optimizer maximizes rating points per dollar — left alone it will chase ef
 |---|---|
 | "solid news presence" | `dayparts = [news dayparts]`, `metric = "points_share"`, `min` |
 | "must be visible in prime" | `dayparts = ["PT", "Prime"]`, `metric = "points_share"`, `min` |
-| "at least 50 spots on WAAA" | `stations = ["WAAA"]`, `metric = "spots"`, `min = 50` |
-| "nothing on WBBB" | `stations = ["WBBB"]`, `metric = "spots"`, `max = 0` |
-| "own the STATE game on the 5th" | `programs = ["*STATE*"]`, `dates = [...]`, `metric = "spots"`, `min = 1` |
+| "at least 50 spots on WXXX" | `stations = ["WXXX"]`, `metric = "spots"`, `min = 50` |
+| "nothing on WYYY" | `stations = ["WYYY"]`, `metric = "spots"`, `max = 0` |
+| "own the championship game on the 5th" | `programs = ["*CHAMPIONSHIP*"]`, `dates = [...]`, `metric = "spots"`, `min = 1` |
 | "no station over 40% of budget" | `per = "station"`, `metric = "spend_share"`, `max = 0.40` |
 | "don't chase tiny ratings" | `[filters] min_rating` |
 | "no spot over $X per point" | `[filters] max_cpp_per_spot` |

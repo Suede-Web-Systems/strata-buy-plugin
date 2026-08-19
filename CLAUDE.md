@@ -37,9 +37,13 @@ money rides on these files: a wrong number becomes a wrong media buy.
    confirmed without a real import test.
 5. **Both gates before any deliverable**: `validate_proposal.py` AND
    `simulate_import.py` must pass. Never soften a FAIL.
-6. **No client data in the repo.** Rates, budgets, and station files stay
-   out (gitignore enforces the common paths). The only fixture is
-   `reference/examples/sample-avails.xml`.
+6. **No client data — or references to it — anywhere public.** This repo
+   is public. Internal/client documents must not be identifiable from
+   code, docs, CHANGELOG, commit messages, or PR text: no document names,
+   advertisers, markets, station call letters, survey names, or dollar
+   figures from real files. Anonymize to scale metrics (rounded cell
+   counts, percentages, timings). Fictional examples use WXXX-style call
+   letters. The only fixture is `reference/examples/sample-avails.xml`.
 7. **Every user-facing change**: bump `.claude-plugin/plugin.json`, add an
    evidence-based CHANGELOG entry (measured numbers, not adjectives), and
    follow `/pr` for the commit/PR.

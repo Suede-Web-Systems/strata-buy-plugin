@@ -262,7 +262,7 @@ def solve_ilp(cells, cfg, cons, dates):
         for d in dates:
             prob += pulp.lpSum(x[i] for i in range(n) if cells[i]['date'] == d) >= 1
     # A tiny gap tolerance turns minutes of optimality-proving into
-    # sub-second solves (measured: 180s -> 0.2s on a real 930-cell file,
+    # sub-second solves (measured: 180s -> 0.2s on a real ~1,000-cell file,
     # points within 0.08%). Without it CBC burns the whole time limit
     # proving the last fraction of a percent.
     print(f"solving ILP: {n} cells, {len(cons)} constraints, gap <={gap:.1%}, time cap {limit}s ...")

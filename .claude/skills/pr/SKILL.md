@@ -26,6 +26,13 @@ Work through all of these; fix, don't waive:
 - [ ] **No client data in the diff**: `git diff --staged --stat` shows no
       avails/buy XML, no real rates or budgets in fixtures or docs. The
       only sanctioned fixture is `reference/examples/sample-avails.xml`.
+- [ ] **No internal-document references** (public repo): grep the diff,
+      commit message, PR title/body, and changelog entry for document
+      names, advertisers, markets, station call letters, survey names,
+      and dollar figures from real files. Anonymize to scale metrics
+      ("a real ~1,000-cell file", percentages, timings); fictional
+      examples use WXXX-style call letters. This applies to *prose about
+      testing* too — naming the file you tested on is the leak.
 - [ ] **Skill/doc paths**: skills reference `${CLAUDE_PLUGIN_ROOT}`, never
       absolute or cache paths. Install lines say `python3 -m pip`.
 - [ ] **Cache note**: if scripts/skills changed, remember the installed
