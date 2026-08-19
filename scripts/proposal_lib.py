@@ -145,6 +145,7 @@ def buyable_cells(inv, demo_ref=None):
                 'line': L['index'], 'date': pd['date'], 'station': L['station'],
                 'rate': pd['rate'], 'rating': rating,
                 'daypart': L['daypart'], 'overnight': L['overnight'],
+                'program': L['program'], 'avail_name': L['avail_name'],
             }
 
 

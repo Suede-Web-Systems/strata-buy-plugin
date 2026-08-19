@@ -1,5 +1,33 @@
 # Changelog
 
+## 0.2.0 — 2026-08-19
+
+Generic constraint system for the optimizer — buyer strategy language now
+maps onto config instead of dying or being approximated:
+
+- **`[[constraint]]` blocks**: scope a floor (`min`) and/or cap (`max`)
+  onto any slice of inventory. Scope by `dayparts`, `stations`,
+  `programs` (glob), `dates`, `overnight`; `per = "station"|"daypart"|
+  "date"` applies a rule to each distinct value. Metrics: `spots`,
+  `spend`, `points`, `spend_share`, `points_share`. Must-buys are
+  `spots`/`min`; exclusions are `max = 0`.
+- **`[filters]`**: `min_rating` and `max_cpp_per_spot` drop
+  distrusted-inventory cells before optimizing (reported, never silent).
+- Legacy `[shape]` keys auto-convert to equivalent constraints; existing
+  configs reproduce their 0.1.x buys (verified on a real avails file).
+- **Post-solve constraint table**: bound vs achieved for every rule —
+  the proof the strategy was honored.
+- Loud failure modes: floors matching zero cells error with the file's
+  actual daypart/station vocabulary (catches label typos); unknown
+  constraint keys error with the allowed list; jointly-infeasible rule
+  sets name every constraint instead of failing cryptically;
+  `[[constraint]]` without pulp exits with install instructions
+  (the greedy fallback only understands legacy [shape]).
+- build-buy SKILL.md: NL-to-constraint translation table, echo-the-
+  constraints-back-for-confirmation step, and an explicit ban on
+  hand-editing buy-plan.json to honor unexpressible requests.
+- `buyable_cells()` now carries program/avail_name (for program scoping).
+
 ## 0.1.3 — 2026-08-19
 
 Preflight hardening, from a six-variant attack pass against both gates:
