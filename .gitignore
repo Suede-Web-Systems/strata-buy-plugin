@@ -26,5 +26,6 @@ venv/
 Thumbs.db
 *.swp
 
-# --- Claude Code session dirs (worktrees live under .claude/) ---
-.claude/
+# --- Claude Code session/local state (but .claude/skills/ IS tracked) ---
+.claude/worktrees/
+.claude/settings.local.json
