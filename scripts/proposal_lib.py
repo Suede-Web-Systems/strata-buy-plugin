@@ -65,6 +65,7 @@ def parse(path):
             'confirm with the buyer' % (target_demo, demos.get(target_demo)))
 
     lines = []
+    n_numberofspots = 0
     for li, L in enumerate(al.findall('p:AvailLineWithDetailedPeriods', NS)):
         daytimes = L.findall('p:DayTimes/p:DayTime', NS)
         if len(daytimes) != 1:
@@ -78,6 +79,8 @@ def parse(path):
         start = dt.findtext('p:StartTime', '', NS)
         periods = []
         for pd in L.findall('p:Periods/p:DayDetailedPeriod', NS):
+            if pd.find('p:NumberOfSpots', NS) is not None:
+                n_numberofspots += 1
             date = pd.get('startDate')
             wd = datetime.date.fromisoformat(date).weekday()
             sb = pd.find('p:SpotsByDay', NS)
@@ -104,6 +107,11 @@ def parse(path):
             'days': flags,
             'periods': periods,
         })
+    if n_numberofspots:
+        warnings.append(
+            '%d period(s) carry <NumberOfSpots> instead of <SpotsByDay>: this '
+            'toolkit ignores those spots (totals exclude them) and Strata '
+            'REJECTS such files outright (confirmed 2026-08-11)' % n_numberofspots)
     return {
         'proposal': {
             'id': pr.get('uniqueIdentifier'), 'name': pr.findtext('p:Name', '', NS),

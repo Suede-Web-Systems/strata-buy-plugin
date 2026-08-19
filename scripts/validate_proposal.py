@@ -3,7 +3,12 @@
 plus Strata-convention checks that XSD cannot express.
 
 Usage: python3 validate_proposal.py <file.xml> [more.xml ...]
-Exit code 0 = all files pass XSD validation (warnings don't fail the run).
+
+Findings come in two severities:
+  ERROR (confirmed) — tied to a documented Strata rejection or silent drop;
+                      any of these FAILs the file (exit 1).
+  WARN              — deviation from Strata's own output whose import impact
+                      is unconfirmed; reported but does not fail the run.
 """
 import sys, os
 from lxml import etree
@@ -12,8 +17,9 @@ HERE = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'schema')
 NSP = 'http://www.AAAA.org/schemas/spotTVCableProposal'
 NS = {'p': NSP}
 
-def convention_warnings(path, tree):
-    w = []
+def convention_findings(path, tree):
+    """Returns (errors, warnings) — see module docstring for semantics."""
+    errs, w = [], []
     raw = open(path, 'rb').read()
     if b'\r\n' not in raw:
         w.append("no CRLF line endings (Strata VIEW emits CRLF; unconfirmed whether required)")
@@ -23,10 +29,10 @@ def convention_warnings(path, tree):
     for e in root.iter('{%s}DayDetailedPeriod' % NSP):
         kids = [c.tag.split('}')[-1] for c in e]
         if 'NumberOfSpots' in kids:
-            w.append("uses <NumberOfSpots> — Strata emits <SpotsByDay>; a file using NumberOfSpots was REJECTED by Strata on 2026-08-11")
+            errs.append("uses <NumberOfSpots> — a file using NumberOfSpots was REJECTED by Strata on 2026-08-11; regenerate with inject_spots.py")
             break
         if 'SpotsByDay' in kids and kids.index('SpotsByDay') > kids.index('DemoValues'):
-            w.append("<SpotsByDay> appears after <DemoValues> — Strata emits it before")
+            errs.append("<SpotsByDay> appears after <DemoValues> — wrong position is a documented rejection cause; Strata emits it before")
             break
     for e in root.iter('{%s}SpotsByDay' % NSP):
         if all(c.text == '0' for c in e):
@@ -39,13 +45,13 @@ def convention_warnings(path, tree):
     for o in root.iter('{%s}OutletReference' % NSP):
         if o.get('outletFromProposalRef') is not None:
             if o.get('outletFromProposalRef') not in outlets:
-                w.append(f"OutletReference points to missing outletId {o.get('outletFromProposalRef')}")
+                errs.append(f"OutletReference points to missing outletId {o.get('outletFromProposalRef')} — broken references are a documented rejection cause")
             listids.add(o.get('outletForListId'))
         elif o.get('outletFromListRef') is not None and o.get('outletFromListRef') not in listids:
-            w.append(f"avail line references missing outletForListId {o.get('outletFromListRef')}")
+            errs.append(f"avail line references missing outletForListId {o.get('outletFromListRef')} — broken references are a documented rejection cause")
     for dv in root.iter('{%s}DemoValue' % NSP):
         if dv.get('demoRef') not in demos:
-            w.append(f"DemoValue references missing DemoId {dv.get('demoRef')}")
+            errs.append(f"DemoValue references missing DemoId {dv.get('demoRef')} — broken references are a documented rejection cause")
             break
     # AIR-DAY CHECK (added 2026-08-18 after TEST-B): Strata silently DROPS any spot
     # placed on a weekday whose <Days> flag is 'N' on that avail line. Confirmed
@@ -73,25 +79,37 @@ def convention_warnings(path, tree):
             wd = datetime.date.fromisoformat(pd.get('startDate')).weekday()
             for i, n in enumerate(counts):
                 if n > 0 and i != wd and pd.get('startDate') == pd.get('endDate'):
-                    w.append(f"spot weekday does not match period date ({pd.get('startDate')})")
+                    w.append(f"spot weekday does not match period date ({pd.get('startDate')}) — drop predicted (inferred, not import-confirmed); simulate_import.py will FAIL this")
                     break
     if bad:
-        w.append(f"{bad} spot(s) placed on non-air days (Days flag = N) — Strata WILL silently drop these (e.g. {ex})")
-    return w
+        errs.append(f"{bad} spot(s) placed on non-air days (Days flag = N) — Strata WILL silently drop these, confirmed 674/674 (e.g. {ex})")
+    return errs, w
 
 def main():
+    if len(sys.argv) < 2:
+        sys.exit('usage: validate_proposal.py <file.xml> [more.xml ...]')
     schema = etree.XMLSchema(etree.parse(os.path.join(HERE, 'spotTVCableProposal.xsd')))
     failed = False
     for path in sys.argv[1:]:
-        tree = etree.parse(path)
-        ok = schema.validate(tree)
-        print(f"{'PASS' if ok else 'FAIL'}  {os.path.basename(path)}")
-        if not ok:
+        try:
+            tree = etree.parse(path)
+        except (etree.XMLSyntaxError, OSError) as e:
+            print(f"FAIL  {os.path.basename(path)}")
+            print(f"      not parseable as XML: {e}")
             failed = True
+            continue
+        xsd_ok = schema.validate(tree)
+        errs, warns = convention_findings(path, tree)
+        ok = xsd_ok and not errs
+        print(f"{'PASS' if ok else 'FAIL'}  {os.path.basename(path)}")
+        if not xsd_ok:
             for err in schema.error_log[:10]:
                 print(f"      line {err.line}: {err.message}")
-        for warn in convention_warnings(path, tree):
+        for e in errs:
+            print(f"      ERROR (confirmed): {e}")
+        for warn in warns:
             print(f"      WARN: {warn}")
+        failed = failed or not ok
     sys.exit(1 if failed else 0)
 
 if __name__ == '__main__':

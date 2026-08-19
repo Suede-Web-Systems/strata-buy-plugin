@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.1.3 — 2026-08-19
+
+Preflight hardening, from a six-variant attack pass against both gates:
+
+- **Validator severity model.** Findings are now `ERROR (confirmed)` —
+  tied to a documented Strata rejection or silent drop (NumberOfSpots,
+  SpotsByDay after DemoValues, broken outlet/demo references, spots on
+  non-air days) — which FAIL the file, vs `WARN` for deviations with
+  unconfirmed impact (CRLF, all-zero blocks, wrong-weekday column).
+  Previously a file with a broken demoRef passed both gates exit-0 with
+  the finding buried in a warning the skill never surfaced.
+- **Simulator honesty.** PASS output now states it checks only the
+  air-day rule; files carrying NumberOfSpots get a WARNING that those
+  spots are excluded from totals and the file is Strata-rejected
+  (detection lives in proposal_lib, so all consumers surface it).
+- Crash-path cleanup in both gates: argparse usage lines, friendly
+  errors for non-XML input and unsupported structures; simulator now
+  accepts multiple files like the validator.
+- FORMAT.md: wrong-weekday-column drop marked as inferred from the
+  all-others-must-be-0 convention, not import-confirmed.
+- preflight SKILL.md: WARN lines must be surfaced verbatim even on PASS;
+  `python3 -m pip` install line.
+
 ## 0.1.2 — 2026-08-19
 
 Optimizer speed and multi-campaign config, from the second test-drive pass:

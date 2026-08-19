@@ -41,7 +41,10 @@ AAAA-Message                       (default ns .../spotTVCableProposal)
   `<SpotsByDay>` are in the **main proposal namespace**. Confusing the two
   produces a file that looks right and is wrong.
 - Since periods are single-day, the only meaningful weekday column is the
-  one matching the period's `startDate` — all others must be 0.
+  one matching the period's `startDate` — all others must be 0. (The
+  toolkit predicts Strata drops spots in a mismatched column; that is
+  inferred from this convention, not import-confirmed like the air-day
+  rule — the confirmed 674/674 test covered non-air *days* only.)
 
 ## The air-day rule (the most expensive lesson)
 
