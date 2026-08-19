@@ -7,7 +7,7 @@ buyer-controlled rules, and produces a validated XML file ready to import
 via VIEW's `File | Import | Proposal XML` — with a preflight that predicts
 exactly what Strata will keep, before anything is sent.
 
-Built and maintained by [Suede Web Systems](mailto:harry@suedewebsystems.ai).
+Built and maintained by [Suede Web Systems](mailto:support@suedewebsystems.ai).
 Open source under the MIT license — use it, fork it, tell us what breaks.
 
 > **Disclaimer:** This project is not affiliated with, endorsed by, or
