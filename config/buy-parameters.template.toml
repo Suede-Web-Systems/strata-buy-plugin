@@ -1,7 +1,17 @@
 # ============================================================
-# Buy parameters — copy this file, rename it (e.g. buy-springfield.toml),
-# and edit the values. Lines starting with # are comments.
+# Buy parameters — one file per campaign/strategy.
+# Copy this template to your WORKING folder (not the plugin folder,
+# which is read-only when installed) and name it after the campaign:
+#   buy-<client>-<campaign>.toml   e.g. buy-acme-springfield-oct.toml
+# Keep every campaign's file — rerunning a buy is then one command,
+# and the file is the audit record of how the buy was shaped.
 # ============================================================
+
+[meta]
+# Free-form; scripts ignore this section. Use it so the next person
+# (or the next session) knows what this strategy is.
+campaign = "Client — Market — flight"
+notes = ""
 
 [buy]
 # Total budget in dollars.
@@ -17,12 +27,59 @@ cover_every_day = true
 # Or give an explicit demo like "Adults 35-99".
 optimize_demo = "target"
 
-[shape]
-# No station may take more than this share of the BUDGET (0.40 = 40%).
-station_spend_cap = 0.40
-# Minimum share of rating points that must come from news programming.
-news_points_floor = 0.25
-# Dayparts counted as news. Two-letter codes and long-form names both work.
-news_dayparts = ["EN", "LN", "Early News", "Late News", "News"]
-# Maximum share of spend on overnight inventory (air time 24:00-29:59).
-overnight_spend_cap = 0.10
+[filters]
+# Cells failing these are removed BEFORE optimizing (reported, not silent).
+# Guard against inventory whose ratings you don't trust:
+# min_rating = 0.1          # ignore cells rated below this
+# max_cpp_per_spot = 500    # ignore cells whose rate/rating exceeds this
+
+# ============================================================
+# Constraints: repeatable [[constraint]] blocks, each scoping a floor
+# (min=) and/or cap (max=) onto a slice of inventory.
+#
+#   Scope keys (optional, AND-ed; lists are any-of, case-insensitive):
+#     dayparts = [...]   stations = [...]   dates = ["2026-09-05", ...]
+#     programs = ["*FOOTBALL*"]   (glob, matched on program & avail name)
+#     overnight = true/false      (air time 24:00-29:59)
+#   per = "station" | "daypart" | "date" applies the rule to EACH
+#     distinct value separately.
+#   metric = "spots" | "spend" | "points" | "spend_share" | "points_share"
+#     (shares are of total budget / total delivered points)
+#
+#   Idioms:
+#     must-buy:   programs = ["*CHAMPIONSHIP*"], metric = "spots", min = 1
+#     exclusion:  stations = ["WYYY"], metric = "spots", max = 0
+# ============================================================
+
+[[constraint]]
+name = "station balance"
+per = "station"
+metric = "spend_share"
+max = 0.40
+
+[[constraint]]
+name = "news presence"
+dayparts = ["EN", "LN", "Early News", "Late News", "News"]
+metric = "points_share"
+min = 0.25
+
+[[constraint]]
+name = "prime presence"
+dayparts = ["PT", "Prime"]
+metric = "points_share"
+min = 0.15
+
+[[constraint]]
+name = "overnight cap"
+overnight = true
+metric = "spend_share"
+max = 0.10
+
+[solver]
+# Stop when the solution is provably within this fraction of optimal.
+# 0.001 (0.1%) solves real files in under a second; 0 forces a full
+# optimality proof, which can take minutes for no material gain.
+gap = 0.001
+# Hard cap on solver runtime, seconds. If the cap is hit, the output is
+# labeled as unproven — raise this only if you see that label.
+time_limit_s = 60
