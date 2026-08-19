@@ -1,7 +1,17 @@
 # ============================================================
-# Buy parameters — copy this file, rename it (e.g. buy-springfield.toml),
-# and edit the values. Lines starting with # are comments.
+# Buy parameters — one file per campaign/strategy.
+# Copy this template to your WORKING folder (not the plugin folder,
+# which is read-only when installed) and name it after the campaign:
+#   buy-<client>-<campaign>.toml   e.g. buy-acme-springfield-oct.toml
+# Keep every campaign's file — rerunning a buy is then one command,
+# and the file is the audit record of how the buy was shaped.
 # ============================================================
+
+[meta]
+# Free-form; scripts ignore this section. Use it so the next person
+# (or the next session) knows what this strategy is.
+campaign = "Client — Market — flight"
+notes = ""
 
 [buy]
 # Total budget in dollars.
@@ -26,3 +36,12 @@ news_points_floor = 0.25
 news_dayparts = ["EN", "LN", "Early News", "Late News", "News"]
 # Maximum share of spend on overnight inventory (air time 24:00-29:59).
 overnight_spend_cap = 0.10
+
+[solver]
+# Stop when the solution is provably within this fraction of optimal.
+# 0.001 (0.1%) solves real files in under a second; 0 forces a full
+# optimality proof, which can take minutes for no material gain.
+gap = 0.001
+# Hard cap on solver runtime, seconds. If the cap is hit, the output is
+# labeled as unproven — raise this only if you see that label.
+time_limit_s = 60

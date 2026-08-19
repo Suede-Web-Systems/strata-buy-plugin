@@ -9,26 +9,33 @@ Turn an avails file plus the buyer's parameters into a validated, Strata-ready b
 ## 1. Dependencies (first run only)
 
 ```bash
-pip install lxml pulp --break-system-packages
+python3 -m pip install lxml pulp --break-system-packages
 ```
+
+(Bare `pip` is often not on PATH.)
 
 If `pulp` fails to install, proceed anyway — the optimizer falls back to a greedy heuristic and labels its output as non-optimal. Tell the user when the fallback was used.
 
-## 2. Parameters
+## 2. Parameters — one strategy file per campaign
 
-Look for an existing `*.toml` parameters file in the working folder. If none exists, copy the template and fill it in by **asking the user**, not by guessing:
+Clients run many campaigns with different strategies. Each strategy lives in its own TOML in the **working folder** (never the plugin folder — it is read-only when installed from the marketplace, and is replaced on update):
+
+- List existing strategies first: `ls buy-*.toml`. If any exist, show the user each file's `[meta] campaign` line and ask which to use (or whether this buy needs a new one).
+- For a new strategy, copy the template under a campaign-specific name and fill it in by **asking the user**, not by guessing:
 
 ```bash
-cp "${CLAUDE_PLUGIN_ROOT}/config/buy-parameters.template.toml" ./buy-parameters.toml
+cp "${CLAUDE_PLUGIN_ROOT}/config/buy-parameters.template.toml" "./buy-<client>-<campaign>.toml"
 ```
 
-Ask for at minimum: budget, target demo, and whether the default shape rules (station cap, news floor, overnight cap, daily coverage) match how they want this buy shaped. Save their answers into the TOML so the next run is one command.
+Ask for at minimum: budget, target demo, and whether the default shape rules (station cap, news floor, overnight cap, daily coverage) match how they want this buy shaped. Fill in `[meta]` so the file is self-describing. Saved this way, rerunning or tweaking any campaign is one command, and the TOML doubles as the audit record of how the buy was shaped — the optimizer also embeds a copy of it in `buy-plan.json`.
 
 ## 3. Optimize
 
 ```bash
-python3 "${CLAUDE_PLUGIN_ROOT}/scripts/optimize_buy.py" "<avails.xml>" --config buy-parameters.toml --out buy-plan.json
+python3 "${CLAUDE_PLUGIN_ROOT}/scripts/optimize_buy.py" "<avails.xml>" --config "<buy-strategy.toml>" --out buy-plan.json
 ```
+
+Solves in seconds on real files (the `[solver]` gap default trades a <=0.1% optimality margin for a ~1000x speedup). If the output says the time cap was hit and optimality is NOT proven, raise `time_limit_s` in the TOML and rerun rather than shipping the unproven plan.
 
 Report the summary: spots, spend, points, CPP, news share, station shares, spots per day. The optimizer only ever buys **valid inventory** (air-day + rated cells). If the CPP looks worse than the buyer expects, explain that phantom inventory is excluded — a CPP computed over unbuyable cells is fiction.
 

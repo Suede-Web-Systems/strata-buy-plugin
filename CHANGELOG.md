@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.1.2 — 2026-08-19
+
+Optimizer speed and multi-campaign config, from the second test-drive pass:
+
+- **~60x faster solves.** CBC was spending its entire hardcoded 180s time
+  limit proving optimality it had already found (measured: identical
+  655.8-point solution at 15s and 180s on a real 930-cell file). New
+  `[solver]` config: `gap` (default 0.001) and `time_limit_s` (default 60).
+  Measured results: 930 cells 180s -> 2.9s at -0.05% points; 6,655-cell
+  larger file solves in 0.4s.
+- **Honest solver labels.** PuLP/CBC reports "Optimal" even when stopped
+  by the time limit with an unproven incumbent. Output now says
+  "within X% of optimal (Ns)" or, when time-capped, that optimality is
+  NOT proven and how to fix it.
+- **One strategy file per campaign.** Template gains `[meta]`
+  (campaign/notes) and `[solver]` sections; build-buy skill now lists
+  `buy-*.toml` strategies, asks which to use, and names new ones
+  `buy-<client>-<campaign>.toml` in the working folder — the plugin
+  install dir is read-only on marketplace installs (e.g. Cowork).
+- **Audit trail:** `buy-plan.json` now embeds the full config and a
+  spots/spend/points summary alongside the buy.
+- `.gitignore` hardened: secrets (.env, keys), client data (root XML/PRX/
+  ZIP, buy-*.toml, plan/inventory JSON), Python/OS junk, `.claude/`.
+- build-buy SKILL.md: `python3 -m pip` install line.
+
 ## 0.1.1 — 2026-08-19
 
 Hardening pass from the first live test drive (two real avails files:

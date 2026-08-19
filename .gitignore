@@ -1,3 +1,30 @@
+# --- Secrets: never commit credentials of any kind ---
+.env
+.env.*
+*.pem
+*.key
+credentials*.json
+secrets*
+
+# --- Client data: avails/buy files carry client rates, budgets, and terms ---
+# (root-anchored so reference/examples/sample-avails.xml stays tracked)
+/*.xml
+/*.prx
+/*.zip
+/buy-*.toml
+buy-plan*.json
+inventory*.json
+
+# --- Python ---
 __pycache__/
-*.pyc
+*.py[cod]
+.venv/
+venv/
+
+# --- OS / editor ---
 .DS_Store
+Thumbs.db
+*.swp
+
+# --- Claude Code session dirs (worktrees live under .claude/) ---
+.claude/
