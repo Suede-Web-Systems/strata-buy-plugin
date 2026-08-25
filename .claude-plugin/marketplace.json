@@ -1,11 +1,32 @@
 {
   "name": "strata-buy-plugin",
-  "owner": { "name": "Suede Web Systems" },
+  "description": "Suede Web Systems tooling for broadcast TV media buyers working in Strata VIEW.",
+  "owner": {
+    "name": "Suede Web Systems",
+    "email": "support@suedewebsystems.ai",
+    "url": "https://github.com/Suede-Web-Systems"
+  },
   "plugins": [
     {
       "name": "strata-buy",
       "source": "./",
-      "description": "Build, validate, and preflight Strata VIEW buy sheets (Proposal XML)."
+      "description": "Build, validate, and preflight Strata VIEW buy sheets (Proposal XML).",
+      "author": {
+        "name": "Suede Web Systems",
+        "email": "support@suedewebsystems.ai"
+      },
+      "homepage": "https://github.com/Suede-Web-Systems/strata-buy-plugin",
+      "repository": "https://github.com/Suede-Web-Systems/strata-buy-plugin",
+      "license": "MIT",
+      "category": "productivity",
+      "keywords": [
+        "broadcast-tv",
+        "media-buying",
+        "strata-view",
+        "proposal-xml",
+        "avails",
+        "aaaa"
+      ]
     }
   ]
 }

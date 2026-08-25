@@ -1,5 +1,35 @@
 # Changelog
 
+## 0.2.1 — 2026-08-24
+
+Distribution and privacy pass ahead of sharing the repo outside Suede. No
+behavior change: the fixture pipeline (parse -> optimize -> inject ->
+validate -> simulate) produces an identical 56-spot / $8,800 buy, both
+gates exit 0.
+
+- **Marketplace manifest**: added the marketplace `description` that
+  `claude plugin validate` warned about, owner contact, and per-plugin
+  `license`, `category`, and `keywords`. `claude plugin validate .` now
+  passes with 0 warnings (was 1). Note: `displayName` is documented for
+  marketplace entries but is rejected as an unrecognized key by CLI
+  2.1.132, so it is deliberately omitted for compatibility.
+- **plugin.json**: added `keywords` for marketplace discovery. Version
+  remains the update trigger; the marketplace entry deliberately does
+  *not* pin `version`.
+- **Rule 6 sweep, applied across the whole of git history.** The 0.2.0
+  scrub cleaned only the tip; earlier commits still carried internal
+  document identifiers, and `schema/spotTVCableProposal.xsd` had been
+  missed entirely. Removed from *every* commit: real station call
+  letters, market names, a data vendor's name, an estimate number, a
+  real survey name, and a program reference. Replaced with fictional
+  WXXX-style call letters and specimen *types* ("a seller-generated
+  station schedule", "a third-party audience-data provider export");
+  evidential value preserved, XSD still compiles.
+
+  **This required a history rewrite — commit SHAs before this release
+  have changed.** Anyone holding an older clone should re-clone rather
+  than pull.
+
 ## 0.2.0 — 2026-08-19
 
 Generic constraint system for the optimizer — buyer strategy language now
